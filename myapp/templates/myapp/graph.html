@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html>
+
+<head>
+    <title>django graphing app </title>
+    <script src="{% static 'myapp/plotly-latest.min.js' %}"></script>
+</head>
+
+<body>
+
+    <div id="graph"></div>
+
+</body>
+<script type="text/javascript">
+
+
+    var chatSocket = new WebSocket(
+        'ws://' + window.location.host + '/graph/');
+
+    //plotly 
+
+    function random() {
+        var rand = {{ random_value }};
+        return rand;
+    }
+
+    Plotly.plot('graph', [{
+        y: [1, 2, 3].map(random)
+    }, {
+        y: [1, 2, 3].map(random)
+    }]);
+
+    var cnt = 0;
+
+    var interval = setInterval(function () {
+
+
+        chatSocket.send(JSON.stringify({
+            'message': "data request"
+        }));
+
+
+        if (cnt === 100) clearInterval(interval);
+    }, 300);
+
+    chatSocket.onmessage = function (e) {
+        var data = JSON.parse(e.data);
+        var randomNumber = data['data'];
+
+        Plotly.extendTraces('graph', {
+            y: [[randomNumber], [randomNumber]]
+        }, [0, 1])
+
+    };
+
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+</script>
+
+</html>
