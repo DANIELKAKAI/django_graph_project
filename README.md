@@ -1,8 +1,10 @@
 # django_graph_project
 In this project I have set up a django application that exposes a RESTful Api endpoint using django Channels 
 that is used to send and recieve messages between the client and the server.<br/>
-Use the following command to start the local development server:
+Use the following commands to install dependancies and to start the local development server:
 ```
+pip install < requirements.txt
+
 python manage.py runserver
 ```
 Using a Web socket the client requests for random numbers from the server:<br/>
