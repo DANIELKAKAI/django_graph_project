@@ -3,7 +3,7 @@ In this project I have set up a django application that exposes a RESTful Api en
 that is used to send and recieve messages between the client and the server.<br/>
 Use the following commands to install dependancies and to start the local development server:
 ```
-pip install < requirements.txt
+pip install -r requirements.txt
 
 python manage.py runserver
 ```
